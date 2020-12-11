@@ -4,8 +4,6 @@
         <router-view class="view" />
 
         <ModalSettings :open="isSettingsModalOpen" />
-        <ModalAccount :open="isAccountModalOpen" />
-        <ModalConnectorSelector :open="isConnectorModalOpen" />
         <NotificationList
             :items="notifications"
         />
@@ -19,16 +17,12 @@ import { useStore } from 'vuex';
 import { RootState } from '@/store';
 
 import Header from '@/components/Header.vue';
-import ModalAccount from '@/components/ModalAccount.vue';
-import ModalConnectorSelector from '@/components/ModalConnectorSelector.vue';
 import ModalSettings from '@/components/ModalSettings.vue';
 import NotificationList from '@/components/NotificationList.vue';
 
 export default defineComponent({
     components: {
         Header,
-        ModalAccount,
-        ModalConnectorSelector,
         ModalSettings,
         NotificationList,
     },
@@ -36,8 +30,6 @@ export default defineComponent({
         const store = useStore<RootState>();
 
         const isSettingsModalOpen = computed(() => store.state.ui.modal.settings.isOpen);
-        const isAccountModalOpen = computed(() => store.state.ui.modal.account.isOpen);
-        const isConnectorModalOpen = computed(() => store.state.ui.modal.connector.isOpen);
 
         const notifications = computed(() => store.state.ui.notifications);
 
@@ -48,8 +40,6 @@ export default defineComponent({
 
         return {
             isSettingsModalOpen,
-            isAccountModalOpen,
-            isConnectorModalOpen,
             notifications,
         };
     },

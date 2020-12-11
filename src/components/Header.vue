@@ -9,16 +9,7 @@
                 <span class="title">Balancer</span>
             </div>
         </router-link>
-        <div class="header-right">
-            <a
-                class="link"
-                href="https://pools.balancer.exchange"
-                target="_blank"
-            >
-                Add Liquidity
-            </a>
-            <Account class="account" />
-        </div>
+        <div class="header-right" />
     </div>
 </template>
 
@@ -28,12 +19,7 @@ import { defineComponent } from 'vue';
 import logo from '@/assets/logo.svg';
 import title from '@/assets/title.svg';
 
-import Account from '@/components/Account.vue';
-
 export default defineComponent({
-    components: {
-        Account,
-    },
     setup() {
         return {
             logo,
