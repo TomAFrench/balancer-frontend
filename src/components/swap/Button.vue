@@ -133,16 +133,6 @@ export default defineComponent({
             emit('swap');
         }
 
-        function isWrapPair(assetIn: string, assetOut: string): boolean {
-            if (assetIn === ETH_KEY && assetOut === config.addresses.weth) {
-                return true;
-            }
-            if (assetOut === ETH_KEY && assetIn === config.addresses.weth) {
-                return true;
-            }
-            return false;
-        }
-
         return {
             disabled,
             text,
