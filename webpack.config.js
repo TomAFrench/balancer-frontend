@@ -2,6 +2,7 @@ const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const webpack = require('webpack');
 
@@ -69,6 +70,12 @@ module.exports =
             __VUE_OPTIONS_API__: false,
             __VUE_PROD_DEVTOOLS__: false,
         }),
+        new CopyPlugin({
+            patterns: [
+                { from: 'public/manifest.json', to: 'manifest.json' },
+                { from: 'public/logo512.png', to: 'logo512.png' },
+            ],
+        }),
         new HtmlWebpackPlugin({
             template: 'public/index.html',
             favicon: 'public/favicon.ico',
@@ -77,5 +84,10 @@ module.exports =
     ],
     devServer: {
         hot: true,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+        },
     },
 };
