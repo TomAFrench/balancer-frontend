@@ -6,7 +6,6 @@ const TRANSACTIONS = 'transactions';
 const ASSETS = 'assets';
 
 interface Preferences {
-    connector: string | null;
     slippage: number;
     pairs: Record<number, Pair>;
     list: string;
@@ -21,11 +20,6 @@ type Transactions = Record<string, Record<number, Record<string, Transaction>>>;
 type Assets = Record<number, Record<string, AssetMetadata>>;
 
 export default class Storage {
-    static getConnector(): string | null {
-        const preferences = getPreferences();
-        return preferences.connector;
-    }
-
     static getSlippage(): number {
         const preferences = getPreferences();
         return preferences.slippage;
@@ -64,12 +58,6 @@ export default class Storage {
             return {};
         }
         return assets[chainId];
-    }
-
-    static saveConnector(connector: string): void {
-        const preferences = getPreferences();
-        preferences.connector = connector;
-        localStorage.setItem(PREFERENCES, JSON.stringify(preferences));
     }
 
     static saveSlippage(slippage: number): void {
@@ -125,12 +113,6 @@ export default class Storage {
         localStorage.setItem(ASSETS, JSON.stringify(assetList));
     }
 
-    static clearConnector(): void {
-        const preferences = getPreferences();
-        preferences.connector = null;
-        localStorage.setItem(PREFERENCES, JSON.stringify(preferences));
-    }
-
     static clearTransactions(): void {
         localStorage.removeItem(TRANSACTIONS);
     }
@@ -142,7 +124,6 @@ export default class Storage {
 
 function getPreferences(): Preferences {
     const defaultPreferences: Preferences = {
-        connector: null,
         slippage: 0.005,
         pairs: {
             1: {

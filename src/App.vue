@@ -35,7 +35,7 @@ export default defineComponent({
 
         onMounted(() => {
             store.dispatch('assets/init');
-            store.dispatch('account/init');
+            store.dispatch('gnosis/init');
         });
 
         return {

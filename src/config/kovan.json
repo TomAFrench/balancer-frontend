@@ -12,26 +12,5 @@
         "exchangeProxy": "0x2641f150669739986CDa3ED6860DeD44BC3Cda5d",
         "weth": "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
         "multicall": "0x2cc8688C5f75E365aaEEb4ea8D6a480405A48D2A"
-    },
-    "connectors": {
-        "injected": {},
-        "walletconnect": {
-            "rpc": {
-                "42": "https://kovan.infura.io/v3/237c3102f39b4940abbe12dc49165cd6"
-            }
-        },
-        "portis": {
-            "network": "kovan",
-            "dappId": "3f1c3cfc-7dd5-4e8a-aa03-71ff7396d9fe"
-        },
-        "walletlink": {
-            "appName": "Balancer Exchange",
-            "darkMode": true,
-            "chainId": 42,
-            "ethJsonrpcUrl": "https://kovan.infura.io/v3/237c3102f39b4940abbe12dc49165cd6"
-        },
-        "fortmatic": {
-            "apiKey": "pk_live_9CE8FD92E54684ED"
-        }
     }
 }

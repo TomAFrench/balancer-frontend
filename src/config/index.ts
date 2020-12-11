@@ -1,12 +1,6 @@
 import homestead from './homestead.json';
 import kovan from './kovan.json';
 
-interface Connector {
-    id: string;
-    name: string;
-    options: any;
-}
-
 export interface AssetMetadata {
     address: string;
     name: string;
@@ -32,7 +26,6 @@ interface Config {
     };
     assets: Record<string, AssetMetadata>;
     untrusted: string[];
-    connectors: Record<string, Connector>;
 }
 
 const configs = {

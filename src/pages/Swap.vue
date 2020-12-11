@@ -111,11 +111,8 @@ export default defineComponent({
         const isModalOpen = computed(() => store.state.ui.modal.asset.isOpen);
         
         const account = computed(() => {
-            const { connector, address } = store.state.account;
-            if (!connector || !connector.id || !address) {
-                return '';
-            }
-            return address;
+            const { address } = store.state.account;
+            return address || '';
         });
 
         const validation = computed(() => {

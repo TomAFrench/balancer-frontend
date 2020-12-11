@@ -59,11 +59,8 @@ export default defineComponent({
         const { addressIn, addressOut, amountIn, transactionPending, validation } = toRefs(props);
 
         const account = computed(() => {
-            const { connector, address } = store.state.account;
-            if (!connector || !connector.id || !address) {
-                return '';
-            }
-            return address;
+            const { address } = store.state.account;
+            return address || '';
         });
 
         const type = computed(() => {
@@ -79,8 +76,8 @@ export default defineComponent({
 
         const disabled = computed(() => {
             if (type.value === Type.Connect) {
-                const { connector, address } = store.state.account;
-                return !!connector && !!connector.id && !address;
+                const { address } = store.state.account;
+                return !address;
             } else {
                 return validation.value !== SwapValidation.NONE ||
                     transactionPending.value;
@@ -100,8 +97,8 @@ export default defineComponent({
 
         const loading = computed(() => {
             if (type.value === Type.Connect) {
-                const { connector, address } = store.state.account;
-                return !!connector && !!connector.id && !address;
+                const { address } = store.state.account;
+                return !address;
             } else {
                 return transactionPending.value;
             }
@@ -172,9 +169,7 @@ export default defineComponent({
         });
 
         function handleClick(): void {
-            if (type.value === Type.Connect) {
-                store.dispatch('ui/openConnectorModal');
-            } else if (type.value === Type.Unlock) {
+            if (type.value === Type.Unlock) {
                 emit('unlock');
             } else {
                 emit('swap');

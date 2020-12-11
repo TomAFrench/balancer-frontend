@@ -1,11 +1,11 @@
 import { ActionContext } from 'vuex';
-import { Web3Provider, Provider } from '@ethersproject/providers';
+import { Web3Provider, Provider, InfuraProvider } from '@ethersproject/providers';
 
 import Ethereum, { Allowances, Balances } from '@/api/ethereum';
 import { RootState } from '@/store';
-import lock, { getConnectorName, getConnectorLogo } from '@/utils/connectors';
 import provider from '@/utils/provider';
 import Storage from '@/utils/storage';
+import { SafeInfo } from '@gnosis.pm/safe-apps-sdk';
 
 enum TransactionStatus {
     PENDING,
@@ -14,7 +14,6 @@ enum TransactionStatus {
 }
 
 export interface AccountState {
-    connector: Connector | null;
     address: string;
     chainId: number;
     proxy: string;
@@ -30,11 +29,6 @@ export interface Transaction {
     timestamp: number;
 }
 
-interface Connector {
-    id: string;
-    name: string;
-}
-
 interface TransactionData {
     text: string;
     transaction: {
@@ -48,9 +42,6 @@ interface MinedTransaction {
 }
 
 const mutations = {
-    setConnector: (_state: AccountState, connector: Connector | null): void => {
-        _state.connector = connector;
-    },
     setAddress: (_state: AccountState, address: string): void => {
         _state.address = address;
     },
@@ -94,77 +85,11 @@ const mutations = {
 };
 
 const actions = {
-    init: async({ dispatch }: ActionContext<AccountState, RootState>): Promise<void> => {
-        // Save Web3 provider if available
-        const connectorId = Storage.getConnector();
-        dispatch('connect', connectorId);
-    },
-    connect: async({ commit, dispatch }: ActionContext<AccountState, RootState>, connectorId: string): Promise<void> => {
-        if (!connectorId) {
-            return;
-        }
-        const connector = lock.getConnector(connectorId);
-        if (!connector) {
-            return;
-        }
-        commit('setConnector', {
-            id: connectorId,
-            name: getConnectorName(connectorId),
-            logo: getConnectorLogo(connectorId),
-        });
-        const provider = await connector.connect();
-        if (!provider) {
-            dispatch('disconnect');
-            return;
-        }
-        const web3Provider = new Web3Provider(provider);
-        const accounts = await web3Provider.listAccounts();
-        if (accounts.length === 0) {
-            dispatch('disconnect');
-            return;
-        }
-        dispatch('saveProvider', provider);
-        Storage.saveConnector(connectorId);
-    },
-    disconnect: async({ commit }: ActionContext<AccountState, RootState>): Promise<void> => {
-        const connectorId = Storage.getConnector();
-        if (connectorId) {
-            const connector = lock.getConnector(connectorId);
-            const isLoggedIn = connector.isLoggedIn();
-            if (isLoggedIn) {
-                await connector.logout();
-            }
-            Storage.clearConnector();
-        }
-        commit('setConnector', null);
-        commit('setAddress', '');
-        commit('setChainId', 0);
-        commit('clear');
-    },
-    saveProvider: async({ commit, dispatch }: ActionContext<AccountState, RootState>, provider: any): Promise<void> => {
-        if (provider.removeAllListeners) {
-            provider.removeAllListeners();
-        }
-        if (provider && provider.on) {
-            provider.on('chainChanged', async () => {
-                commit('clear');
-                dispatch('saveProvider', provider);
-            });
-            provider.on('accountsChanged', async () => {
-                commit('clear');
-                dispatch('saveProvider', provider);
-            });
-            provider.on('disconnect', async () => {
-                dispatch('disconnect');
-            });
-        }
-        const web3Provider = new Web3Provider(provider);
-        const network = await web3Provider.getNetwork();
-        const accounts = await web3Provider.listAccounts();
-        const account = accounts[0];
-        const transactions = Storage.getTransactions(account, network.chainId);
-        commit('setAddress', account);
-        commit('setChainId', network.chainId);
+    connect: async({ commit, dispatch }: ActionContext<AccountState, RootState>, safeInfo: SafeInfo): Promise<void> => {
+        const chainId = {mainnet: 1, rinkeby: 4}[safeInfo.network];
+        const transactions = Storage.getTransactions(safeInfo.safeAddress, chainId);
+        commit('setAddress', safeInfo.safeAddress);
+        commit('setChainId', chainId);
         commit('setTransactions', transactions);
         dispatch('fetchState');
     },
@@ -224,10 +149,8 @@ const actions = {
 
 const getters = {
     provider: async(state: AccountState): Promise<Provider> => {
-        if (state.connector && state.connector.id) {
-            const connector = lock.getConnector(state.connector.id);
-            const provider = await connector.connect();
-            return new Web3Provider(provider);
+        if (state.chainId) {
+            return new InfuraProvider(state.chainId);
         }
         return provider;
     },
@@ -235,7 +158,6 @@ const getters = {
 
 function state(): AccountState {
     return {
-        connector: null,
         address: '',
         chainId: 0,
         proxy: '',

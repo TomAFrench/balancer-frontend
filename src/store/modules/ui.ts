@@ -13,12 +13,6 @@ export interface UIState {
         settings: {
             isOpen: boolean;
         };
-        account: {
-            isOpen: boolean;
-        };
-        connector: {
-            isOpen: boolean;
-        };
     };
     notifications: Notification[];
 }
@@ -38,12 +32,6 @@ const mutations = {
     },
     setSettingsModal: (_state: UIState, isOpen: boolean): void => {
         _state.modal.settings.isOpen = isOpen;
-    },
-    setAccountModal: (_state: UIState, isOpen: boolean): void => {
-        _state.modal.account.isOpen = isOpen;
-    },
-    setConnectorModal: (_state: UIState, isOpen: boolean): void => {
-        _state.modal.connector.isOpen = isOpen;
     },
     addNotification: (_state: UIState, notification: Notification): void => {
         _state.notifications.push(notification);
@@ -67,18 +55,6 @@ const actions = {
     closeSettingsModal: ({ commit }: ActionContext<UIState, RootState>): void => {
         commit('setSettingsModal', false);
     },
-    openAccountModal: ({ commit }: ActionContext<UIState, RootState>): void => {
-        commit('setAccountModal', true);
-    },
-    closeAccountModal: ({ commit }: ActionContext<UIState, RootState>): void => {
-        commit('setAccountModal', false);
-    },
-    openConnectorModal: ({ commit }: ActionContext<UIState, RootState>): void => {
-        commit('setConnectorModal', true);
-    },
-    closeConnectorModal: ({ commit }: ActionContext<UIState, RootState>): void => {
-        commit('setConnectorModal', false);
-    },
     notify: async ({ commit }: ActionContext<UIState, RootState>, notification: Notification): Promise<void> => {
         commit('addNotification', notification);
         await sleep(NOTIFICATION_DURATION);
@@ -94,12 +70,6 @@ function state(): UIState {
                 key: '',
             },
             settings: {
-                isOpen: false,
-            },
-            account: {
-                isOpen: false,
-            },
-            connector: {
                 isOpen: false,
             },
         },
