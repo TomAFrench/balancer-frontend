@@ -27,7 +27,6 @@
                 :address-out="assetOutAddressInput"
                 :transaction-pending="transactionPending"
                 :validation="validation"
-                @unlock="unlock"
                 @swap="swap"
             />
             <Routing
@@ -214,19 +213,6 @@ export default defineComponent({
             if (assetModalKey === 'output') {
                 assetOutAddressInput.value = assetAddress;
             }
-        }
-
-        async function unlock(): Promise<void> {
-            transactionPending.value = true;
-            const provider = await store.getters['account/provider'];
-            const assetInAddress = assetInAddressInput.value;
-            const spender = config.addresses.exchangeProxy;
-            const tx = await Helper.unlock(provider, assetInAddress, spender);
-            const metadata = store.getters['assets/metadata'];
-            const assetSymbol = metadata[assetInAddress].symbol;
-            const text = `Unlock ${assetSymbol}`;
-            await handleTransaction(tx, text);
-            store.dispatch('account/fetchAssets', [ assetInAddress ]);
         }
 
         async function swap(): Promise<void> {
@@ -502,7 +488,6 @@ export default defineComponent({
 
             handleAmountChange,
             handleAssetSelect,
-            unlock,
             swap,
         };
     },

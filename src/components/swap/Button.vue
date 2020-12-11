@@ -22,7 +22,6 @@ import Button from '@/components/Button.vue';
 
 enum Type {
     Connect,
-    Unlock,
     Swap,
 }
 
@@ -52,7 +51,7 @@ export default defineComponent({
             required: true,
         },
     },
-    emits: ['swap', 'unlock'],
+    emits: ['swap'],
     setup(props, { emit }) {
         const store = useStore<RootState>();
 
@@ -66,9 +65,6 @@ export default defineComponent({
         const type = computed(() => {
             if (!account.value) {
                 return Type.Connect;
-            }
-            if (!isUnlocked.value) {
-                return Type.Unlock;
             } else {
                 return Type.Swap;
             }
@@ -127,53 +123,14 @@ export default defineComponent({
             if (type.value === Type.Connect) {
                 return 'Connect Wallet';
             }
-            if (type.value === Type.Unlock) {
-                return 'Unlock';
-            }
             if (type.value === Type.Swap) {
                 return 'Swap';
             }
             return '';
         });
 
-        const isUnlocked = computed(() => {
-            const { allowances } = store.state.account;
-            const metadata = store.getters['assets/metadata'];
-            if (!addressIn.value) {
-                return true;
-            }
-            if (addressIn.value === ETH_KEY) {
-                return true;
-            }
-            if (isWrapPair(addressIn.value, addressOut.value)) {
-                return true;
-            }
-            if (!amountIn.value) {
-                return true;
-            }
-            const exchangeProxyAddress = config.addresses.exchangeProxy;
-            if (!allowances[exchangeProxyAddress]) {
-                return true;
-            }
-            const allowance = allowances[exchangeProxyAddress][addressIn.value];
-            if (!allowance) {
-                return true;
-            }
-            const decimals = metadata[addressIn.value].decimals;
-            if (!decimals) {
-                return true;
-            }
-            const allowanceNumber = new BigNumber(allowance);
-            const allowanceRaw = scale(allowanceNumber, -decimals);
-            return allowanceRaw.gte(amountIn.value);
-        });
-
         function handleClick(): void {
-            if (type.value === Type.Unlock) {
-                emit('unlock');
-            } else {
-                emit('swap');
-            }
+            emit('swap');
         }
 
         function isWrapPair(assetIn: string, assetOut: string): boolean {
