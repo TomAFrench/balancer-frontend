@@ -251,6 +251,7 @@ export default defineComponent({
                 await store.dispatch('gnosis/sendTransactions', txs);
                 // await handleTransaction(txs, text);
             }
+            transactionPending.value = false;
             store.dispatch('account/fetchAssets', [ assetInAddress, assetOutAddress ]);
             if (sor) {
                 sor.fetchPools();
