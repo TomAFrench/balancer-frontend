@@ -86,7 +86,7 @@ const mutations = {
 
 const actions = {
     connect: async({ commit, dispatch }: ActionContext<AccountState, RootState>, safeInfo: SafeInfo): Promise<void> => {
-        const chainId = {mainnet: 1, rinkeby: 4}[safeInfo.network];
+        const chainId = {MAINNET: 1, RINKEBY: 4}[safeInfo.network];
         const transactions = Storage.getTransactions(safeInfo.safeAddress, chainId);
         commit('setAddress', safeInfo.safeAddress);
         commit('setChainId', chainId);
