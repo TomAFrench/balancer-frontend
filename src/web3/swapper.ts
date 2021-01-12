@@ -45,7 +45,7 @@ export default class Swapper {
         const erc20ContractInterface = new Interface(ERC20ABI);
         const setApprovalTransaction = {
             to: assetInAddress,
-            data: erc20ContractInterface.encodeFunctionData('approve', [assetInAmount]),
+            data: erc20ContractInterface.encodeFunctionData('approve', [exchangeProxyAddress, assetInAmount.toString()]),
             value: '0',
         };
 
@@ -83,7 +83,7 @@ export default class Swapper {
         const erc20ContractInterface = new Interface(ERC20ABI);
         const setApprovalTransaction = {
             to: assetInAddress,
-            data: erc20ContractInterface.encodeFunctionData('approve', [assetInAmountMax]),
+            data: erc20ContractInterface.encodeFunctionData('approve', [exchangeProxyAddress, assetInAmountMax.toString()]),
             value: '0',
         };
         const revokeApprovalTransaction = {
