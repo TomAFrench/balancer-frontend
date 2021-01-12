@@ -238,16 +238,20 @@ export default defineComponent({
                 return;
             }
 
-            if (isExactIn.value) {
-                const assetOutAmountNumber = new BigNumber(assetOutAmountInput.value);
-                const assetOutAmount = scale(assetOutAmountNumber, assetOutDecimals);
-                const minAmount = assetOutAmount.div(1 + slippageBufferRate).integerValue(BigNumber.ROUND_DOWN);
-                const txs = await Swapper.swapIn(swaps.value, assetInAddress, assetOutAddress, assetInAmount, minAmount);
-                await store.dispatch('gnosis/sendTransactions', txs);
-            } else {
-                const assetInAmountMax = assetInAmount.times(1 + slippageBufferRate).integerValue(BigNumber.ROUND_DOWN);
-                const txs = await Swapper.swapOut(swaps.value, assetInAddress, assetOutAddress, assetInAmountMax);
-                await store.dispatch('gnosis/sendTransactions', txs);
+            try{  
+                if (isExactIn.value) {
+                    const assetOutAmountNumber = new BigNumber(assetOutAmountInput.value);
+                    const assetOutAmount = scale(assetOutAmountNumber, assetOutDecimals);
+                    const minAmount = assetOutAmount.div(1 + slippageBufferRate).integerValue(BigNumber.ROUND_DOWN);
+                    const txs = await Swapper.swapIn(swaps.value, assetInAddress, assetOutAddress, assetInAmount, minAmount);
+                    await store.dispatch('gnosis/sendTransactions', txs);
+                } else {
+                    const assetInAmountMax = assetInAmount.times(1 + slippageBufferRate).integerValue(BigNumber.ROUND_DOWN);
+                    const txs = await Swapper.swapOut(swaps.value, assetInAddress, assetOutAddress, assetInAmountMax);
+                    await store.dispatch('gnosis/sendTransactions', txs);
+                }
+            } catch (err) {
+                console.error(err);
             }
             transactionPending.value = false;
             store.dispatch('account/fetchAssets', [ assetInAddress, assetOutAddress ]);
