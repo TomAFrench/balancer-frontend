@@ -29,12 +29,16 @@ export default class Swapper {
         const exchangeProxyContractInterface = new Interface(ExchangeProxyABI);
         const exchangeTransaction =
         {
-            to:exchangeProxyAddress,
-            data: exchangeProxyContractInterface.encodeFunctionData('multihopBatchSwapExactIn', [swaps,
-                assetInAddress,
-                assetOutAddress,
-                assetInAmount.toString(),
-                assetOutAmountMin.toString()]),
+            to: exchangeProxyAddress,
+            data: exchangeProxyContractInterface.encodeFunctionData(
+                'multihopBatchSwapExactIn', 
+                [
+                    swaps,
+                    assetInAddress,
+                    assetOutAddress,
+                    assetInAmount.toString(),
+                    assetOutAmountMin.toString(),
+                ]),
             value: assetInAddress === ETH_ADDRESS ? `0x${assetInAmount.toString(16)}` : '0',
         };
 
@@ -69,10 +73,14 @@ export default class Swapper {
         const exchangeTransaction =
         {
             to:exchangeProxyAddress,
-            data: exchangeProxyContractInterface.encodeFunctionData('multihopBatchSwapExactOut', [swaps,
-                assetInAddress,
-                assetOutAddress,
-                assetInAmountMax.toString()]),
+            data: exchangeProxyContractInterface.encodeFunctionData(
+                'multihopBatchSwapExactOut', 
+                [
+                    swaps,
+                    assetInAddress,
+                    assetOutAddress,
+                    assetInAmountMax.toString(),
+                ]),
             value: assetInAddress === ETH_ADDRESS ? `0x${assetInAmountMax.toString(16)}` : '0',
         };
 
@@ -88,7 +96,7 @@ export default class Swapper {
         };
         const revokeApprovalTransaction = {
             to: assetInAddress,
-            data: erc20ContractInterface.encodeFunctionData('approve', [0]),
+            data: erc20ContractInterface.encodeFunctionData('approve', ['0']),
             value: '0',
         };
 
