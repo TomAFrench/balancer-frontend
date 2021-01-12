@@ -9,13 +9,10 @@
 </template>
 
 <script lang="ts">
-import BigNumber from 'bignumber.js';
 import { PropType, defineComponent, toRefs, computed } from 'vue';
 import { useStore } from 'vuex';
 
-import config from '@/config';
 import { RootState } from '@/store';
-import { ETH_KEY, scale } from '@/utils/helpers';
 import { SwapValidation } from '@/utils/validation';
 
 import Button from '@/components/Button.vue';
@@ -55,7 +52,7 @@ export default defineComponent({
     setup(props, { emit }) {
         const store = useStore<RootState>();
 
-        const { addressIn, addressOut, amountIn, transactionPending, validation } = toRefs(props);
+        const { transactionPending, validation } = toRefs(props);
 
         const account = computed(() => {
             const { address } = store.state.account;

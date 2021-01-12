@@ -1,5 +1,5 @@
 import { ActionContext } from 'vuex';
-import { Web3Provider, Provider, InfuraProvider } from '@ethersproject/providers';
+import { Provider, InfuraProvider } from '@ethersproject/providers';
 
 import Ethereum, { Allowances, Balances } from '@/api/ethereum';
 import { RootState } from '@/store';

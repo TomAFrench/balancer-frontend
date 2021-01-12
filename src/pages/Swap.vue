@@ -54,13 +54,12 @@ import { useRouter } from 'vue-router';
 import { useIntervalFn } from '@vueuse/core';
 import BigNumber from 'bignumber.js';
 import { getAddress } from '@ethersproject/address';
-import { ErrorCode } from '@ethersproject/logger';
 import { SOR } from '@balancer-labs/sor';
 import { Swap, Pool } from '@balancer-labs/sor/dist/types';
 
 import config from '@/config';
 import provider from '@/utils/provider';
-import { ETH_KEY, scale, isAddress, getEtherscanLink } from '@/utils/helpers';
+import { ETH_KEY, scale, isAddress } from '@/utils/helpers';
 import { ValidationError, SwapValidation, validateNumberInput } from '@/utils/validation';
 import Storage from '@/utils/storage';
 import Swapper from '@/web3/swapper';
@@ -72,7 +71,6 @@ import Routing from '@/components/swap/Routing.vue';
 import Settings from '@/components/Settings.vue';
 import SwapButton from '@/components/swap/Button.vue';
 import SwapPair from '@/components/swap/Pair.vue';
-import { Transaction } from '@gnosis.pm/safe-apps-sdk';
 
 // eslint-disable-next-line no-undef
 const GAS_PRICE = process.env.APP_GAS_PRICE || '100000000000';
@@ -229,21 +227,17 @@ export default defineComponent({
             if (isWrapPair(assetInAddress, assetOutAddress)) {
                 if (assetInAddress === ETH_KEY) {
                     const txs = await Helper.wrap(assetInAmount);
-                    const text = 'Wrap ether';
                     await store.dispatch('gnosis/sendTransactions', txs);
                     // await handleTransaction(tx, text);
                 } else {
                     const txs = await Helper.unwrap(assetInAmount);
-                    const text = 'Unwrap ether';
                     await store.dispatch('gnosis/sendTransactions', txs);
                     // await handleTransaction(tx, text);
                 }
                 store.dispatch('account/fetchAssets', [ config.addresses.weth ]);
                 return;
             }
-            const assetInSymbol = metadata[assetInAddress].symbol;
-            const assetOutSymbol = metadata[assetOutAddress].symbol;
-            const text = `Swap ${assetInSymbol} for ${assetOutSymbol}`;
+
             if (isExactIn.value) {
                 const assetOutAmountNumber = new BigNumber(assetOutAmountInput.value);
                 const assetOutAmount = scale(assetOutAmountNumber, assetOutDecimals);
@@ -389,42 +383,6 @@ export default defineComponent({
                 }
             }
             swapsLoading.value = false;
-        }
-
-        async function handleTransaction(transactions: Transaction[], text: string): Promise<void> {
-            // if (transaction.code) {
-            //     transactionPending.value = false;
-            //     if (transaction.code === ErrorCode.UNPREDICTABLE_GAS_LIMIT) {
-            //         store.dispatch('ui/notify', {
-            //             text: `${text} failed`,
-            //             type: 'warning',
-            //             link: 'https://help.balancer.finance',
-            //         });
-            //     }
-            //     return;
-            // }
-
-            // store.dispatch('account/saveTransaction', {
-            //     transaction,
-            //     text,
-            // });
-
-            // const transactionReceipt = await provider.waitForTransaction(transaction.hash, 1);
-            // transactionPending.value = false;
-            // store.dispatch('account/saveMinedTransaction', {
-            //     receipt: transactionReceipt,
-            //     timestamp: Date.now(),
-            // });
-
-            // const type = transactionReceipt.status === 1
-            //     ? 'success'
-            //     : 'error';
-            // const link = getEtherscanLink(transactionReceipt.transactionHash);
-            // store.dispatch('ui/notify', {
-            //     text,
-            //     type,
-            //     link,
-            // });
         }
 
         async function fetchAssetMetadata(assetIn: string, assetOut: string): Promise<void> {
