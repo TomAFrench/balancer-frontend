@@ -72,6 +72,7 @@ import Routing from '@/components/swap/Routing.vue';
 import Settings from '@/components/Settings.vue';
 import SwapButton from '@/components/swap/Button.vue';
 import SwapPair from '@/components/swap/Pair.vue';
+import { Transaction } from '@gnosis.pm/safe-apps-sdk';
 
 // eslint-disable-next-line no-undef
 const GAS_PRICE = process.env.APP_GAS_PRICE || '100000000000';
@@ -225,16 +226,17 @@ export default defineComponent({
             const assetInAmountNumber = new BigNumber(assetInAmountInput.value);
             const assetInAmount = scale(assetInAmountNumber, assetInDecimals);
             const slippageBufferRate = Storage.getSlippage();
-            const provider = await store.getters['account/provider'];
             if (isWrapPair(assetInAddress, assetOutAddress)) {
                 if (assetInAddress === ETH_KEY) {
-                    const tx = await Helper.wrap(provider, assetInAmount);
+                    const txs = await Helper.wrap(assetInAmount);
                     const text = 'Wrap ether';
-                    await handleTransaction(tx, text);
+                    await store.dispatch('gnosis/sendTransactions', txs);
+                    // await handleTransaction(tx, text);
                 } else {
-                    const tx = await Helper.unwrap(provider, assetInAmount);
+                    const txs = await Helper.unwrap(assetInAmount);
                     const text = 'Unwrap ether';
-                    await handleTransaction(tx, text);
+                    await store.dispatch('gnosis/sendTransactions', txs);
+                    // await handleTransaction(tx, text);
                 }
                 store.dispatch('account/fetchAssets', [ config.addresses.weth ]);
                 return;
@@ -246,12 +248,14 @@ export default defineComponent({
                 const assetOutAmountNumber = new BigNumber(assetOutAmountInput.value);
                 const assetOutAmount = scale(assetOutAmountNumber, assetOutDecimals);
                 const minAmount = assetOutAmount.div(1 + slippageBufferRate).integerValue(BigNumber.ROUND_DOWN);
-                const tx = await Swapper.swapIn(provider, swaps.value, assetInAddress, assetOutAddress, assetInAmount, minAmount);
-                await handleTransaction(tx, text);
+                const txs = await Swapper.swapIn(swaps.value, assetInAddress, assetOutAddress, assetInAmount, minAmount);
+                await store.dispatch('gnosis/sendTransactions', txs);
+                // await handleTransaction(txs, text);
             } else {
                 const assetInAmountMax = assetInAmount.times(1 + slippageBufferRate).integerValue(BigNumber.ROUND_DOWN);
-                const tx = await Swapper.swapOut(provider, swaps.value, assetInAddress, assetOutAddress, assetInAmountMax);
-                await handleTransaction(tx, text);
+                const txs = await Swapper.swapOut(swaps.value, assetInAddress, assetOutAddress, assetInAmountMax);
+                await store.dispatch('gnosis/sendTransactions', txs);
+                // await handleTransaction(txs, text);
             }
             store.dispatch('account/fetchAssets', [ assetInAddress, assetOutAddress ]);
             if (sor) {
@@ -387,40 +391,40 @@ export default defineComponent({
             swapsLoading.value = false;
         }
 
-        async function handleTransaction(transaction: any, text: string): Promise<void> {
-            if (transaction.code) {
-                transactionPending.value = false;
-                if (transaction.code === ErrorCode.UNPREDICTABLE_GAS_LIMIT) {
-                    store.dispatch('ui/notify', {
-                        text: `${text} failed`,
-                        type: 'warning',
-                        link: 'https://help.balancer.finance',
-                    });
-                }
-                return;
-            }
+        async function handleTransaction(transactions: Transaction[], text: string): Promise<void> {
+            // if (transaction.code) {
+            //     transactionPending.value = false;
+            //     if (transaction.code === ErrorCode.UNPREDICTABLE_GAS_LIMIT) {
+            //         store.dispatch('ui/notify', {
+            //             text: `${text} failed`,
+            //             type: 'warning',
+            //             link: 'https://help.balancer.finance',
+            //         });
+            //     }
+            //     return;
+            // }
 
-            store.dispatch('account/saveTransaction', {
-                transaction,
-                text,
-            });
+            // store.dispatch('account/saveTransaction', {
+            //     transaction,
+            //     text,
+            // });
 
-            const transactionReceipt = await provider.waitForTransaction(transaction.hash, 1);
-            transactionPending.value = false;
-            store.dispatch('account/saveMinedTransaction', {
-                receipt: transactionReceipt,
-                timestamp: Date.now(),
-            });
+            // const transactionReceipt = await provider.waitForTransaction(transaction.hash, 1);
+            // transactionPending.value = false;
+            // store.dispatch('account/saveMinedTransaction', {
+            //     receipt: transactionReceipt,
+            //     timestamp: Date.now(),
+            // });
 
-            const type = transactionReceipt.status === 1
-                ? 'success'
-                : 'error';
-            const link = getEtherscanLink(transactionReceipt.transactionHash);
-            store.dispatch('ui/notify', {
-                text,
-                type,
-                link,
-            });
+            // const type = transactionReceipt.status === 1
+            //     ? 'success'
+            //     : 'error';
+            // const link = getEtherscanLink(transactionReceipt.transactionHash);
+            // store.dispatch('ui/notify', {
+            //     text,
+            //     type,
+            //     link,
+            // });
         }
 
         async function fetchAssetMetadata(assetIn: string, assetOut: string): Promise<void> {
