@@ -1,14 +1,14 @@
 <template>
     <div class="header">
-        <router-link :to="'/'">
-            <div class="brand">
-                <img
-                    class="logo"
-                    :src="logo"
-                >
-                <span class="title">Balancer</span>
-            </div>
-        </router-link>
+        <!-- <router-link :to="'/'"> -->
+        <div class="brand">
+            <img
+                class="logo"
+                :src="logo"
+            >
+            <span class="title">Balancer</span>
+        </div>
+        <!-- </router-link> -->
         <div class="header-right" />
     </div>
 </template>
@@ -36,7 +36,8 @@ export default defineComponent({
     justify-content: space-between;
     align-items: center;
     background: var(--background-header);
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+
+    /* box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15); */
 }
 
 .header-right {

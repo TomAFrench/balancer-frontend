@@ -50,24 +50,36 @@ export default defineComponent({
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 :root {
-    --background-primary: #181818;
-    --background-secondary: #21222c;
-    --background-header: #1a1a1a;
-    --background-form: #1f1f1f;
-    --background-control: #2c2d3a;
-    --background-hover: #1c1c24;
-    --border-form: #262626;
-    --border-input: #2a2a2a;
-    --accent: #4965ff;
-    --accent-dark: #3c56e3;
-    --text-primary: #fff;
-    --text-secondary: #acbbc3;
-    --text-control: #999;
+    /* Gnosis Theme */
+    --gnosis-primary: #008c73;
+    --gnosis-primary-light: #a1d2ca;
+    --gnosis-primary-hover: #005546;
+    --gnosis-primary-disabled: #008c7380;
+    --gnosis-secondary: #001428;
+    --gnosis-secondary-light: #b2b5b2;
+    --gnosis-secondary-hover: #5d6d74;
+    --gnosis-secondary-disabled: #00142880;
+    --gnosis-red: #f02525;
+
+    /* Balancer */
+    --background-primary: #fff;
+    --background-secondary: #fff;
+    --background-header: #fff;
+    --background-form: #f7f5f5;
+    --background-control: #fff;
+    --background-hover: var(--gnosis-secondary-light);
+    --border-form: #f7f5f5;
+    --border-input: #f7f5f5;
+    --accent: var(--gnosis-primary);
+    --accent-dark: var(--gnosis-primary-hover);
+    --text-primary: #000;
+    --text-secondary: #5d6d74;
+    --text-control: #000;
     --text-inverted: #000;
     --success: #21b66f;
     --info: #7685d5;
     --warning: #ffc780;
-    --error: #ff8a80;
+    --error: var(--gnosis-red);
     --font-size-tiny: 11px;
     --font-size-small: 14px;
     --font-size-medium: 16px;
@@ -105,7 +117,7 @@ input:invalid {
     min-height: calc(100vh - 96px);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 @media only screen and (max-width: 768px) {

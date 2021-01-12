@@ -52,21 +52,24 @@ button {
 }
 
 button.primary {
-    background: linear-gradient(185deg, #f0f -100%, #00f 100%) 40% / 200%;
+    background: linear-gradient(185deg, var(--gnosis-primary) -100%, var(--gnosis-primary) 100%) 40% / 200%;
+    color: #fff;
     transition: background 0.25s ease-in;
 }
 
 button:hover {
     background: var(--background-hover);
+    color: #fff;
 }
 
 button.primary:hover {
-    background: linear-gradient(185deg, #f0f -100%, #00f 100%) 70% / 200%;
+    background: linear-gradient(185deg, var(--gnosis-primary-hover) -100%, var(--gnosis-primary-hover) 100%) 70% / 200%;
+    color: #fff;
 }
 
 button:disabled,
 button:disabled:hover {
-    background: var(--text-secondary);
+    background: var(--gnosis-primary-disabled);
     cursor: not-allowed;
 }
 </style>
