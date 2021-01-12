@@ -1,4 +1,5 @@
 import homestead from './homestead.json';
+import rinkeby from './rinkeby.json';
 import kovan from './kovan.json';
 
 export interface AssetMetadata {
@@ -32,6 +33,10 @@ const configs = {
     1: {
         untrusted: [],
         ...homestead,
+    },
+    4:{
+        untrusted: [],
+        ...rinkeby,
     },
     42:{
         untrusted: [],

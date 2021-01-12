@@ -130,6 +130,10 @@ function getPreferences(): Preferences {
                 inputAsset: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
                 outputAsset: '0xba100000625a3754423978a60c9317c58a424e3D',
             },
+            4: {
+                inputAsset: '0xaFF4481D10270F50f203E0763e2597776068CBc5',
+                outputAsset: '0x022E292b44B5a146F2e8ee36Ff44D3dd863C915c',
+            },
             42: {
                 inputAsset: '0x1528F3FCc26d13F7079325Fb78D9442607781c8C',
                 outputAsset: '0xef13C0c8abcaf5767160018d268f9697aE4f5375',

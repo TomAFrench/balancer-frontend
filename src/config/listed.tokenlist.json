@@ -560,6 +560,22 @@
             "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643/logo.png"
         },
         {
+            "address": "0xaFF4481D10270F50f203E0763e2597776068CBc5",
+            "chainId": 4,
+            "name": "Weenus",
+            "symbol": "WEENUS",
+            "decimals": 18,
+            "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xaFF4481D10270F50f203E0763e2597776068CBc5/logo.png"
+        },
+        {
+            "address": "0x022E292b44B5a146F2e8ee36Ff44D3dd863C915c",
+            "chainId": 4,
+            "name": "Xeenus",
+            "symbol": "XEENUS",
+            "decimals": 18,
+            "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x022E292b44B5a146F2e8ee36Ff44D3dd863C915c/logo.png"
+        },
+        {
             "address": "0x1528F3FCc26d13F7079325Fb78D9442607781c8C",
             "chainId": 42,
             "name": "Dai Stablecoin",
