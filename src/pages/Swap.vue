@@ -244,12 +244,10 @@ export default defineComponent({
                 const minAmount = assetOutAmount.div(1 + slippageBufferRate).integerValue(BigNumber.ROUND_DOWN);
                 const txs = await Swapper.swapIn(swaps.value, assetInAddress, assetOutAddress, assetInAmount, minAmount);
                 await store.dispatch('gnosis/sendTransactions', txs);
-                // await handleTransaction(txs, text);
             } else {
                 const assetInAmountMax = assetInAmount.times(1 + slippageBufferRate).integerValue(BigNumber.ROUND_DOWN);
                 const txs = await Swapper.swapOut(swaps.value, assetInAddress, assetOutAddress, assetInAmountMax);
                 await store.dispatch('gnosis/sendTransactions', txs);
-                // await handleTransaction(txs, text);
             }
             transactionPending.value = false;
             store.dispatch('account/fetchAssets', [ assetInAddress, assetOutAddress ]);
