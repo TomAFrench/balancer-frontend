@@ -63,7 +63,7 @@ button:hover {
 }
 
 button.primary:hover {
-    background: linear-gradient(185deg, var(--gnosis-primary-hover) -100%, var(--gnosis-primary-hover) 100%) 70% / 200%;
+    background: linear-gradient(185deg, var(--gnosis-secondary) -100%, var(--gnosis-secondary) 100%) 70% / 200%;
     color: #fff;
 }
 

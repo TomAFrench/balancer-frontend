@@ -67,7 +67,7 @@ export default defineComponent({
     --background-header: #fff;
     --background-form: #f7f5f5;
     --background-control: #fff;
-    --background-hover: var(--gnosis-secondary-light);
+    --background-hover: #fcfcfc;
     --border-form: #f7f5f5;
     --border-input: #f7f5f5;
     --accent: var(--gnosis-primary);
