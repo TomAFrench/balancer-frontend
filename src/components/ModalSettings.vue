@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="section">
+            <!-- <div class="section">
                 <div class="section-header">
                     Transaction history
                 </div>
@@ -40,7 +40,7 @@
                         @click="clearTransactions"
                     />
                 </div>
-            </div>
+            </div> -->
             <div class="section">
                 <div class="section-header">
                     Imported tokens
