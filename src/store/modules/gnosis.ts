@@ -27,7 +27,7 @@ const actions = {
         commit('setSafeInfo', safeInfo);
         await dispatch('account/connect', safeInfo, { root:true });
     },
-    sendGnosisTransactions: async ({ state }: ActionContext<GnosisState, RootState>, transactions: Transaction[]): Promise<void> => {
+    sendTransactions: async ({ state }: ActionContext<GnosisState, RootState>, transactions: Transaction[]): Promise<void> => {
         state.appsSdk.sendTransactions(transactions);
     },
 };
