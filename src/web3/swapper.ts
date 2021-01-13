@@ -96,7 +96,7 @@ export default class Swapper {
         };
         const revokeApprovalTransaction = {
             to: assetInAddress,
-            data: erc20ContractInterface.encodeFunctionData('approve', ['0']),
+            data: erc20ContractInterface.encodeFunctionData('approve', [exchangeProxyAddress, '0']),
             value: '0',
         };
 
