@@ -1,11 +1,11 @@
 {
-  "name": "balancer-frontend",
-  "version": "1.0.0",
-  "description": "Balancer Protocol Frontend",
+  "name": "balancer-safe-app",
+  "version": "0.1.0",
+  "description": "Balancer Protocol Exchange Safe App",
   "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "git://github.com/balancer-labs/balancer-frontend.git"
+    "url": "git://github.com/tomafrench/balancer-safe-app.git"
   },
   "scripts": {
     "build": "webpack",
