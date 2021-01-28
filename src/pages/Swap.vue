@@ -1,6 +1,5 @@
 <template>
     <div class="page">
-        <MessageReimbursement />
         <div class="pair">
             <div class="header">
                 <div class="header-text">
@@ -87,7 +86,6 @@ interface Pair {
 
 export default defineComponent({
     components: {
-        MessageReimbursement,
         ModalAssetSelector,
         Routing,
         Settings,
