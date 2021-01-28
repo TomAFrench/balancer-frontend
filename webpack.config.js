@@ -15,7 +15,7 @@ module.exports =
     // Where should the compiled file go?
     output:
     {
-        publicPath: '/',
+        publicPath: './',
         filename: '[name].[hash].js',
     },
     mode: isDev ? 'development' : 'production',
@@ -84,6 +84,7 @@ module.exports =
     ],
     devServer: {
         hot: true,
+        publicPath: '/',
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET',
