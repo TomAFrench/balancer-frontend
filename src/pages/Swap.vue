@@ -66,6 +66,7 @@ import Swapper from '@/web3/swapper';
 import Helper from '@/web3/helper';
 import { RootState } from '@/store';
 
+import MessageReimbursement from '@/components/MessageReimbursement.vue';
 import ModalAssetSelector from '@/components/ModalAssetSelector.vue';
 import Routing from '@/components/swap/Routing.vue';
 import Settings from '@/components/Settings.vue';
