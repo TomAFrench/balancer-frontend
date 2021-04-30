@@ -2,8 +2,8 @@
     "network": "homestead",
     "chainId": 1,
     "precision": 6,
-    "infuraKey": "237c3102f39b4940abbe12dc49165cd6",
-    "alchemyKey": "cQGZUiTLRCFsQS7kbRxPJK4eH4fTTu88",
+    "infuraKey": "72c7c15a07f849a187f8a1a6d706e57d",
+    "alchemyKey": "B7pp7tX3sRIsr4E9Smag-9HA-KKsv2St",
     "subgraphUrl": "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer",
     "subgraphBackupUrl": "https://ipfs.fleek.co/ipns/balancer-bucket.storage.fleek.co/balancer-exchange/pools",
     "addresses": {
